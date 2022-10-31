@@ -67,7 +67,8 @@ else{
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="index.html">Gp<span>.</span></a></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="admin_home.php" style="color: #FFC541">ZEIT WATCHES</a> <br>
+      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">time will explain.</span></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -107,7 +108,9 @@ else{
              
             </ul>
           </li>
+          
           <li><a class="nav-link scrollto" href="admin_manage_purchase.php">Purchase</a></li>
+          <li><a class="nav-link scrollto" href="admin_view_sales.php">Sales</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

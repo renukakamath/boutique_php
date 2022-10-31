@@ -9,7 +9,7 @@ if(isset($_POST['reg']))
 	$target = $dir.uniqid("images_").".".$file_type;
 	if(move_uploaded_file($_FILES['img']['tmp_name'], $target))
 	{
-  echo $q1="insert into tbl_brand values(null,'$Fname','$target')";
+   $q1="insert into tbl_brand values(null,'$Fname','$target')";
   insert($q1);
  return redirect("admin_manage_brand.php");
     }

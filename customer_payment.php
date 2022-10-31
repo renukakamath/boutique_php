@@ -10,11 +10,29 @@ if(isset($_POST['confirm_order'])){
     insert($q2);
      $add_card="add_card";
     if($add_card =="add_card"){
-         $q3="INSERT INTO `tbl_card` VALUES(NULL,'$cust_id','$cnum','$cname')";
-        insert($q3);
+         $qg="SELECT * FROM `tbl_card` WHERE `card_no`='$cnum' AND `card_name`='$cname' and `cust_id`='$cust_id'";
+        $rg=select($qg);
+        if(sizeof($rg)<0){
+          $q3="INSERT INTO `tbl_card` VALUES(NULL,'$cust_id','$cnum','$cname')";
+          insert($q3);
+        }
     }
+    $qu="SELECT * FROM `tbl_cartchild` WHERE `cart_mid`='$cart_mid'";
+    $ru=select($qu);
+    foreach($ru as $rt){
+      $qa="UPDATE `tbl_item` SET `stock`=`stock`-'".$rt['quantity']."' WHERE `item_id`='".$rt['item_id']."'";
+      update($qa);
+    }
+
+    return redirect("customer_cart.php");
    
 
+}
+
+if(isset($_GET['choose'])){
+  extract($_GET);
+  $qx="SELECT * FROM `tbl_card`  WHERE `card_id`='$choose'";
+  $rx=select($qx);
 }
 
  ?>
@@ -25,15 +43,16 @@ if(isset($_POST['confirm_order'])){
       <div class="col">
         <div class="card">
           <div class="card-body p-4">
+            
 
             <div class="row">
-
-              <!-- <div class="col-lg-7">
+            
+              <div class="col-lg-7">
                 <h5 class="mb-3"><a href="#!" class="text-body"><i
-                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                      class="fas fa-long-arrow-alt-left me-2"></i>Saved Cards</a></h5>
                 <hr>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <!-- <div class="d-flex justify-content-between align-items-center mb-4">
                   <div>
                     <p class="mb-1">Shopping cart</p>
                     <p class="mb-0">You have 4 items in your cart</p>
@@ -42,118 +61,55 @@ if(isset($_POST['confirm_order'])){
                     <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"
                         class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>
                   </div>
-                </div>
+                </div> -->
+              
 
-                <div class="card mb-3">
-                  <div class="card-body">
+                
+<?php 
+  $qq="SELECT * FROM `tbl_card` WHERE `cust_id`='$cust_id'";
+  $ry=select($qq);
+  if(sizeof($ry)>0){
+    foreach($ry as $row){ 
+      $str = $row['card_no'];
+       $str2 = substr($str, 12);
+      ?>
+
+  
+            <div class="card mb-3">
+                <div class="card-body">
                     <div class="d-flex justify-content-between">
                       <div class="d-flex flex-row align-items-center">
-                        <div>
+                        <!-- <div>
                           <img
                             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
                             class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                        </div>
+                        </div> -->
                         <div class="ms-3">
-                          <h5>Iphone 11 pro</h5>
-                          <p class="small mb-0">256GB, Navy Blue</p>
+                          <h5><?php echo $row['card_name']; ?></h5>
+                          <p class="small mb-0">xxxx xxxx xxxx <?php echo $str2; ?></p>
                         </div>
                       </div>
                       <div class="d-flex flex-row align-items-center">
-                        <div style="width: 50px;">
+                        <!-- <div style="width: 50px;">
                           <h5 class="fw-normal mb-0">2</h5>
-                        </div>
+                        </div> -->
                         <div style="width: 80px;">
-                          <h5 class="mb-0">$900</h5>
+                          <p class="mb-0"><a href="?choose=<?php echo $row['card_id']; ?>&cart_mid=<?php echo $cart_mid; ?>&ttamount=<?php echo $ttamount; ?>" class="btn btn-info btn-sm">Choose</a></p>
                         </div>
                         <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex flex-row align-items-center">
-                        <div>
-                          <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img2.webp"
-                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                        </div>
-                        <div class="ms-3">
-                          <h5>Samsung galaxy Note 10 </h5>
-                          <p class="small mb-0">256GB, Navy Blue</p>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-row align-items-center">
-                        <div style="width: 50px;">
-                          <h5 class="fw-normal mb-0">2</h5>
-                        </div>
-                        <div style="width: 80px;">
-                          <h5 class="mb-0">$900</h5>
-                        </div>
-                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                      </div>
                     </div>
-                  </div>
                 </div>
+                 
+<?php 
+  }
+}
+?>
+ 
+              </div>
 
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex flex-row align-items-center">
-                        <div>
-                          <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
-                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                        </div>
-                        <div class="ms-3">
-                          <h5>Canon EOS M50</h5>
-                          <p class="small mb-0">Onyx Black</p>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-row align-items-center">
-                        <div style="width: 50px;">
-                          <h5 class="fw-normal mb-0">1</h5>
-                        </div>
-                        <div style="width: 80px;">
-                          <h5 class="mb-0">$1199</h5>
-                        </div>
-                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card mb-3 mb-lg-0">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex flex-row align-items-center">
-                        <div>
-                          <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img4.webp"
-                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                        </div>
-                        <div class="ms-3">
-                          <h5>MacBook Pro</h5>
-                          <p class="small mb-0">1TB, Graphite</p>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-row align-items-center">
-                        <div style="width: 50px;">
-                          <h5 class="fw-normal mb-0">1</h5>
-                        </div>
-                        <div style="width: 80px;">
-                          <h5 class="mb-0">$1799</h5>
-                        </div>
-                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div> -->
-              <div class="col-lg-4" ></div>
+              <!-- <div class="col-lg-4" ></div> -->
               <div class="col-lg-4" >
               <form action="" method="post">
                 <div class="card bg-primary text-white rounded-3">
@@ -181,13 +137,13 @@ if(isset($_POST['confirm_order'])){
                     <form class="mt-4" method="post" >
                       <div class="form-outline form-white mb-4" style="margin-top: 20px;">
                         <input type="text" name="cname" id="typeName" class="form-control form-control-lg" siez="17"
-                          placeholder="Cardholder's Name" />
+                          placeholder="Cardholder's Name" <?php if(isset($_GET['choose'])){ ?>  value="<?php echo $rx[0]['card_name']; ?>" readonly <?php } ?> />
                         <label class="form-label" for="typeName">Cardholder's Name</label>
                       </div>
 
                       <div class="form-outline form-white mb-4">
                         <input type="text" id="typeText" name="cnum" class="form-control form-control-lg" siez="17"
-                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                          placeholder="1234 5678 9012 3457" minlength="16" maxlength="16"  <?php if(isset($_GET['choose'])){ ?>  value="<?php echo $rx[0]['card_no']; ?>" readonly <?php } ?> />
                         <label class="form-label" for="typeText">Card Number</label>
                       </div>
 

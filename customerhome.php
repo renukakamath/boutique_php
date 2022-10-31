@@ -18,8 +18,7 @@ if(isset($_GET['brandfil'])){
 
       <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
         <div class="col-xl-6 col-lg-8">
-          <h1>Powerful Digital Solutions With Gp<span>.</span></h1>
-          <h2>We are team of talented digital marketers</h2>
+        <h1 style="color: #FFC541; font-family: Freestyle Script Regular ">Time Will Explain..</h1>
         </div>
       </div>
 
@@ -75,7 +74,7 @@ if(isset($_GET['brandfil'])){
         			foreach ($ress as $row ) { ?>
 
         
-            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>#team"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt=""><br><?php echo $row['brand_name']; ?></a></div>
+            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>#team"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt="<?php echo $row['brand_name']; ?>"></a></div>
            
           <?php } } ?>
           </div>

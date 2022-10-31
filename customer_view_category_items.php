@@ -35,7 +35,7 @@ if(isset($_GET['brandfil'])){
         			foreach ($ress as $row ) { ?>
 
         
-            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>&cat=<?php echo $cat; ?>"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt=""><br><?php echo $row['brand_name']; ?></a></div>
+            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>&cat=<?php echo $cat; ?>"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt="<?php echo $row['brand_name']; ?>"></a></div>
            
           <?php } } ?>
           </div>
@@ -63,13 +63,15 @@ foreach ($var1 as $key) {
       
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px">
             <div class="member" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
+            <a href="customer_view_products.php?item_id=<?php echo $key['item_id']; ?>" style="text-decoration: none;" >  
+            <div class="member-img">
                 <img src="<?php echo $key['item_image'] ?>" style="height: 220px"  class="img-fluid" alt="">
                 </div>
               <div class="member-info">
                 <h4><?php echo $key['item_name']; ?></h4>
                 <span> ₹<?php echo $key['rate'] ?>/-</span>
               </div>
+              </a> 
             </div>
           </div>
 

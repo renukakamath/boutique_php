@@ -51,7 +51,7 @@
           if ($row['stock']<20) {
           	?>
            <td>
-          		<a href="addpurchase.php?item=<?php echo $row['item_id'] ?>&rate=<?php echo $row['rate'] ?>" class="btn btn-info">PURCHASE</a>
+          		<a href="admin_purchase_product.php?item=<?php echo $row['item_id'] ?>&rate=<?php echo $row['rate'] ?>" class="btn btn-info">PURCHASE</a>
           	</td>
         <?php
          }

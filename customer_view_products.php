@@ -82,13 +82,59 @@ if(isset($_GET['add_cart'])){
             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
               
              <p><a href="?add_cart=<?php echo $var1[0]['item_id']; ?>&amount=<?php echo $var1[0]['rate']; ?>&item_id=<?php echo $item_id; ?>" class="btn btn-warning">Add to Cart</a>
-             <a href="" class="btn btn-success">Buy Now</a></p>
+             <!-- <a href="" class="btn btn-success">Buy Now</a></p> -->
             </div>
           </div>
         </div>
 
       </div>
     </section><!-- End Features Section -->
+
+
+
+    
+
+ <!-- ======= Team Section ======= -->
+ <section id="team" class="team">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>watches!!</h2>
+          <p>Check our watches</p>
+        </div>
+
+ <div class="row">
+<?php 
+
+$var="SELECT * FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) ";
+$var1=select($var);
+foreach ($var1 as $key) {
+	?> 
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px">
+            <div class="member" data-aos="fade-up" data-aos-delay="100">
+            <a href="customer_view_products.php?item_id=<?php echo $key['item_id']; ?>">
+            <div class="member-img">
+                <img src="<?php echo $key['item_image'] ?>" style="height: 220px"  class="img-fluid" alt="">
+                </div>
+              <div class="member-info">
+                <h4><?php echo $key['item_name']; ?></h4>
+                <span> ₹<?php echo $key['rate'] ?>/-</span>
+              </div>
+              </a>  
+            </div>
+          </div>
+
+                  <?php
+	}
+	?>
+
+   
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
 
 
 <?php include 'footer.php'; ?>
