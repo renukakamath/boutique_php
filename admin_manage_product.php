@@ -1,142 +1,221 @@
-<?php include 'admin_header.php';
+<?php include 'seller_header.php';
 
-if(isset($_POST['Login'])) 
-{
-  extract($_POST);
 
-  $dir = "images/";
-	$file = basename($_FILES['imgg']['name']);
-	$file_type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-	$target = $dir.uniqid("images_").".".$file_type;
-	if(move_uploaded_file($_FILES['imgg']['tmp_name'], $target))
-	{
-  
-    $q1="insert into tbl_item values(null,'$cat','$typ','$brd','$Fname','$stk','$des','$target','active','$price')";
-  insert($q1);
-  return redirect("admin_manage_product.php");
+
+if(isset($_POST['sub'])){
+    $dir = "uploads/";
+  $file = basename($_FILES['img']['name']);
+  $file_type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+  $target = $dir.uniqid("images_").".".$file_type;
+  if(move_uploaded_file($_FILES['img']['tmp_name'], $target))
+  {
+        extract($_POST);
+        $q="insert into product values(null,'$subctg', '$product', '$model','$materials', '$details','$target', '0', '0','0')";
+        insert($q);
+      
+        return redirect("admin_manage_product.php");
     }
+    else
+    {
+        echo "file uploading error occured";
+    }
+    
 
 
-}
 
-if(isset($_GET['id']))
-{
-	extract($_GET);
-	$q9="update tbl_item set item_status='deactive' where item_id='$id'";
-	update($q9);
-}
-if(isset($_GET['id1']))
-{
-	extract($_GET);
-	$q9="update tbl_item set item_status='active' where item_id='$id1'";
-	update($q9);
 }
 
 
 
 
- ?>
+
+if(isset($_GET['did'])){
+    extract($_GET);
+    $q="delete from product where product_id='$did' ";
+    delete($q);
+  return redirect("admin_manage_product.php");
+}
 
 
+
+
+
+?>
 <!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex align-items-center justify-content-center" style="min-height:1050px">
+<section id="hero" class="d-flex align-items-center justify-content-center" style="height: 1000px" >
     <div class="container" data-aos="fade-up">
 
       <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
         <div class="col-xl-6 col-lg-8">
 
-        <font size="4" face="Lato"  style="color: #FFC541">
-ADD PRODUCT
-</font>
-<font size="4" face="Lato">
-<form method="post" enctype="multipart/form-data">
-<table align="center" cellpadding=20  style="color: #FFC541">
-			<tr>
-   <td> PRODUCT NAME :</td>
-    <td><input type="text" name="Fname" class="form-control"></td>
-     </tr>
-     <tr>
-     	<th>CATEGORY NAME</th>
-     	<td>
-     		<select name="cat"  class="form-control">
-     			<option>Select</option>
-     			<?php 
-     			$q="select * from tbl_category";
-     			$res=select($q);
-     			foreach ($res as $row) {
-     				?>
-     				<option value="<?php echo $row['cat_id'] ?>"><?php echo $row['cat_name'] ?></option>
-     			<?php 
-     		}
-     			 ?>
-     		</select>
-     	</td>
-     </tr>
-    
-	<tr>
-     	<th>TYPE NAME</th>
-     	<td>
-     		<select name="typ"  class="form-control">
-     			<option>Select</option>
-     			<?php 
-     			$q3="select * from tbl_type";
-     			$res3=select($q3);
-     			foreach ($res3 as $rows) {
-     				?>
-     				<option value="<?php echo $rows['type_id'] ?>"><?php echo $rows['type_name'] ?></option>
-     			<?php 
-     		}
-     			 ?>
-     		</select>
-     	</td>
-     </tr>
-	
-	    <tr>
-     	<th>BRAND NAME</th>
-     	<td>
-     		<select name="brd"  class="form-control">
-     			<option>Select</option>
-     			<?php 
-     			$q4="select * from tbl_brand";
-     			$res4=select($q4);
-     			foreach ($res4 as $rowss) {
-     				?>
-     				<option value="<?php echo $rowss['brand_id'] ?>"><?php echo $rowss['brand_name'] ?></option>
-     			<?php 
-     		}
-     			 ?>
-     		</select>
-     	</td>
-     </tr>
-	<tr>
-	<td>STOCK : </td>
-	<td><input type="text" name="stk" class="form-control"></td>
-	</tr>
-     <tr>
-  <td>DESCRIPTION : </td>
-  <td><input type="text" name="des" class="form-control"></td>
-  </tr>
-   <tr>
-  <td>IMAGE : </td>
-  <td><input type="file" name="imgg" class="form-control"></td>
-  </tr>
-  <tr>
-	<!-- <tr>
-	<td>STATUS :</td>
-	<td><input type="text" name="st" class="form-control"></td>
-    </tr> -->
-   
-    <tr>
-    <td>RATE:</td>
-    <td> <input type="text" name="price"  class="form-control"></td>
-    </tr>
-    
-<tr>
-	<td colspan="2" align="center"><input type="submit" align="center" class="btn btn-success" value="Add" name="Login"></td>
 
-</tr></table></form></font>
+<font size="4" face="Lato"  style="color: #FFC541">
+
+<?php 
+if(isset($_GET['uid'])){
+   extract($_GET);
+
+
+
+
+
+if(isset($_POST['update'])){
+    $dir = "uploads/";
+    $file = basename($_FILES['img']['name']);
+    $file_type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    $target = $dir.uniqid("images_").".".$file_type;
+    if(move_uploaded_file($_FILES['img']['tmp_name'], $target))
+    {
+        extract($_POST);
+        echo$q="update  product set category_id='$subctg', product_name='$product',model='$model',material='$materials',details='$details', photo='$target' where product_id='$uid'";
+        update($q);
+      
+        return redirect("admin_manage_product.php");
+    }
+    else
+    {
+        echo "file uploading error occured";
+    }
+    
+
+
+
+}
+
+
+?>
 <center>
 
+<h1  style="color: #FFC541">Update Products</h1>
+
+
+<form  method="post" enctype="multipart/form-data">
+<?php 
+    $q1="select * from product  inner join category using (category_id) where product_id='$uid'";
+    $ven=select($q1);
+
+    $i=1;
+    foreach($ven as $r){
+    ?>
+<table class="table" style="width: 500px;color: white">
+<tr>
+    <th> Category </th>
+    <td><select name="subctg" id="" class="form-control">
+    <option value="<?php echo $r['category_id'] ?>"><?php echo $r['category_name'] ?></option>
+ 
+    <?php 
+    $q="select * from category";
+    $res=select($q);
+
+    $i=1;
+    foreach($res as $row){
+    ?>
+        <option value="<?php echo $row['category_id']?>"><?php echo $row['category_name']?></option>
+       <?php }?>
+    </select></td>
+</tr>
+
+<tr>
+    <th>Product </th>
+    <td><input type="text" value="<?php echo $r['product_name'] ?>" class="form-control" required class="form-control" name="product" id=""></td>
+</tr>
+<tr>
+    <th>Model </th>
+    <td><input type="text" value="<?php echo $r['model'] ?>" class="form-control" required class="form-control" name="model" id=""></td>
+</tr>
+
+
+<tr>
+    <th>Materials </th>
+    <td><input type="text" value="<?php echo $r['material'] ?>" class="form-control" required class="form-control" name="materials" id=""></td>
+</tr>
+
+<tr>
+    <th>Details </th>
+    <td><input type="text" value="<?php echo $r['details'] ?>" class="form-control" required class="form-control" name="details" id=""></td>
+</tr>
+<tr>
+    <th>Image </th>
+    <td><img src="<?php echo $r['photo'] ?>" width="50" class="form-control" height="50" alt=""></td>
+</tr>
+<tr>
+    <th></th>
+    <td><input type="file" name="img" id=""></td>
+</tr>
+
+
+ 
+<tr>
+    <td colspan="2" align="center">
+        <input type="submit" class="btn btn-success" value="submit" name="update" id="">
+    </td>
+</tr>
+</table>
+<?php }?>
+</form>
+
+</center>
+
+<?php }else{?>
+    <center>
+<h1  style="color: #FFC541">Add Products</h1>
+
+
+<form  method="post" enctype="multipart/form-data">
+
+<table class="table" style="width: 500px;color: #FFC541" >
+<tr>
+    <th > Category </th>
+    <td><select name="subctg" id="" class="form-control">
+    
+ 
+    <?php 
+    $q="select * from category";
+    $res=select($q);
+
+    $i=1;
+    foreach($res as $row){
+    ?>
+        <option value="<?php echo $row['category_id']?>"><?php echo $row['category_name']?></option>
+       <?php }?>
+    </select></td>
+</tr>
+
+<tr>
+    <th>Product </th>
+    <td><input type="text" class="form-control" required class="form-control" name="product" id=""></td>
+</tr>
+<tr>
+    <th>Model </th>
+    <td><input type="text"  class="form-control" required class="form-control" name="model" id=""></td>
+</tr>
+
+
+<tr>
+    <th>Materials </th>
+    <td><input type="text"  class="form-control" required class="form-control" name="materials" id=""></td>
+</tr>
+
+<tr>
+    <th>Details </th>
+    <td><input type="text"  class="form-control" required class="form-control" name="details" id=""></td>
+</tr>
+
+<tr>
+    <th>Image</th>
+    <td><input type="file" name="img" id=""></td>
+</tr>
+
+
+ 
+<tr>
+    <td colspan="2" align="center">
+        <input type="submit" class="btn btn-success" value="submit" name="sub" id="">
+    </td>
+</tr>
+</table>
+</form>
+<?php }?>
 
 
 </div>
@@ -147,57 +226,42 @@ ADD PRODUCT
   <main id="main">
 
 
-
-<h4>Product Details</h4>
-</font>
-<font size="4" face="Lato">
-<form method="post">
-
-  <table class="table" style="width: 1300px">
-    <tr>
-      <th> PRODUCT NAME</th>
-      <th>CATEGORY NAME</th>
-      <th>TYPE NAME</th>
-      <th>BRAND NAME</th>
-      <th>DESCRIPTION</th>
-      <th>STOCK</th>
+<h3>View Products</h3>
+ <table class="table"  style="width: 1200px;color: black" >
+    <tr align="center">
+        <th></th>
+        <th>Product</th>
+      <th>Model</th>
+      <th>Materials</th>
+      <th>Details</th>
+        <th> category</th>
+      
+        <th>quantity</th>
+        <th>rate</th>
     </tr>
+    <?php 
+    $q="select * from product  inner join category using (category_id) ";
+    $ven=select($q);
 
-     <?php 
-     $q=" SELECT * FROM `tbl_item` inner join tbl_brand using(brand_id) inner join tbl_type using(type_id) inner join tbl_category using(cat_id)";
-      $res11=select($q);
-        foreach ($res11 as $row) { ?>
+    $i=1;
+    foreach($ven as $row){
+    ?>
+    <tr align="center">
+        <td><a href="<?php echo $row['photo'] ?>"><img width="100" height="100" src="<?php echo $row['photo'] ?>" alt="image"></a></td>
+        <td><?php echo $row['product_name']?></td>
+        <td><?php echo $row['model']?></td>
+         <td><?php echo $row['material']?></td>
+          <td><?php echo $row['details']?></td>
+        <td><?php echo $row['category_name']?></td>
+     
+      
+        <td><?php echo $row['stock']?></td>
+        <td><?php echo $row['sellingprice'] ?></td>
+        <td><a class="btn btn-success" href="?&uid=<?php echo $row['product_id']?>">update</a></td>
+        <td><a class="btn btn-danger" href="?&did=<?php echo $row['product_id']?>">delete</a></td>
 
-          <tr>
-            <td><?php echo $row['item_name']; ?></td>
-            <td><?php echo $row['cat_name']; ?></td>
-            <td><?php echo $row['type_name']; ?></td>
-            <td><?php echo $row['brand_name']; ?></td>
-            <td><?php echo $row['description']; ?></td>
-            <td><?php echo $row['stock']; ?></td>
-          <?php if($row['item_status']=='active')
-          {
-          	?>
-          	<td>
-          		<a href="?id=<?php echo $row['item_id']; ?>"class="btn btn-danger" >DEACTIVE</a>
-          	</td>
-          	<?php
-          }
-          elseif($row['item_status']=='deactive')
-          {
-          	?>
-          	<td>
-          		<a href="?id1=<?php echo $row['item_id']; ?>"class="btn btn-success" >ACTIVE</a>
-          	</td>
-          	<?php
-          }?>
-
-          </tr>
-
-
-<?php 
-}
-?>
-  </table>
+    </tr>
+    <?php }?>
+</table>
 </center>
-<?php include 'footer.php'; ?>
+<?php include 'footer.php' ?>

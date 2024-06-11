@@ -1,6 +1,6 @@
 
 <?php include "connection.php";
-$cust_id=$_SESSION['cust_id'];
+$cust_id=$_SESSION['user_id'];
 
 ?>
 
@@ -62,29 +62,30 @@ $cust_id=$_SESSION['cust_id'];
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="customer_home.php" style="color: #FFC541">ZEIT WATCHES</a> <br>
-      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">time will explain.</span></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="customer_home.php" style="color: #FFC541">BRD Since Now</a> <br>
+      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">Boutique</span></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="customerhome.php">Home</a></li>
-          <li><a class="nav-link scrollto" href="#team">Products</a></li>
+          <li><a class="nav-link scrollto" href="about.php">About Us</a></li>
+        <!--   <li><a class="nav-link scrollto" href="#team">Products</a></li> -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <li ><a class="nav-link scrollto" href="customer_cart.php"><i class="fa fa-shopping-cart" style="font-size:20px;color:#F5AA27"></i> Cart</a></li>
           <li><a class="nav-link scrollto" href="customer_view_my_orders.php">My Orders</a></li>
-          <!-- <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
-          <!-- <li class="dropdown"><a href="#"><span>Manage</span> <i class="bi bi-chevron-down"></i></a>
-            <ul> -->
+   
+        <!--   <li class="dropdown"><a href="#"><span>Share</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
 
               
-              <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
+            
+                  <li><a href="customer_sharemy_ideas.php">Share My Ideas</a></li>
+                  <li><a href="Ratedesigner.php">Rating</a></li>
+                  <li><a href="sendcomplaint.php">Feedback</a></li>
+                  <li><a href="reportdesign.php">Report</a></li>
+                  
                 </ul>
               </li> -->
 
@@ -97,8 +98,7 @@ $cust_id=$_SESSION['cust_id'];
              
             </ul>
           </li> -->
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-          <li ><a class="nav-link scrollto" href="customer_cart.php"><i class="fa fa-shopping-cart" style="font-size:20px;color:#F5AA27"></i> Cart</a></li>
+         
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

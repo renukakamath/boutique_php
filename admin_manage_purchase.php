@@ -26,33 +26,44 @@
   <table class="table" style="width: 1300px;color: white">
   <thead class="table thead-dark">
     <tr>
-      <th> PRODUCT NAME</th>
-      <th>CATEGORY NAME</th>
-      <th>TYPE NAME</th>
-      <th>BRAND NAME</th>
+      <th>Product</th>
+      <th>Model</th>
+      <th>Materials</th>
+      <th>Details</th>
+        <th> category</th>
+        <th>rate</th>
+       
       <th>STOCK</th>
     </tr>
     </thead>
     <tbody class="table table-hover">
      <?php 
-      $q=" SELECT * FROM `tbl_item` inner join tbl_brand using(brand_id) inner join tbl_type using(type_id) inner join tbl_category using(cat_id) WHERE `stock` <20";
+      $q=" SELECT * FROM `product`  inner join category using(category_id) WHERE `stock` <20 and price!=0";
       $res11=select($q);
         foreach ($res11 as $row) { ?>
 
           <tr>
-            <td><?php echo $row['item_name']; ?></td>
-            <td><?php echo $row['cat_name']; ?></td>
-            <td><?php echo $row['type_name']; ?></td>
-            <td><?php echo $row['brand_name']; ?></td>
-            <td><?php echo $row['stock']; ?></td> 
+            <td><?php echo $row['product_name']?></td>
+        <td><?php echo $row['model']?></td>
+         <td><?php echo $row['material']?></td>
+          <td><?php echo $row['details']?></td>
+        <td><?php echo $row['category_name']?></td>
+     
+        <td><?php echo $row['price']?></td>
+        <td><?php echo $row['stock']?></td>
  <?php 
           
 
           if ($row['stock']<20) {
           	?>
            <td>
-          		<a href="admin_purchase_product.php?item=<?php echo $row['item_id'] ?>&rate=<?php echo $row['rate'] ?>" class="btn btn-info">PURCHASE</a>
+          		<a href="admin_purchase_product.php?item=<?php echo $row['product_id'] ?>&rate=<?php echo $row['price'] ?>" class="btn btn-info">PURCHASE</a>
           	</td>
+
+
+          <!--   <td>
+              <a href="admin_purchase_products.php?item=<?php echo $row['product_id'] ?>&rate=<?php echo $row['price'] ?>" class="btn btn-info">Request</a>
+            </td> -->
         <?php
          }
 

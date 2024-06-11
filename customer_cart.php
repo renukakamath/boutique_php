@@ -1,20 +1,17 @@
 <?php include 'customer_header.php';
 
- $q1="SELECT * FROM `tbl_cartmaster` INNER JOIN `tbl_cartchild` USING(`cart_mid`)  INNER JOIN `tbl_item` USING(`item_id`)  INNER JOIN `tbl_brand` USING(`brand_id`) INNER JOIN `tbl_category` USING(`cat_id`) INNER JOIN `tbl_type` USING(`type_id`) WHERE `cust_id`='$cust_id' AND `status`='Pending'";
+
+$q1="SELECT * FROM `bookings` INNER JOIN `product`  USING (`product_id`) INNER JOIN `user` USING (user_id) WHERE `user_id`='$cust_id' AND `status`='booked'";
+
+
 $res1=select($q1);
-$qq="SELECT *,COUNT(`cart_cid`) AS cart_count,sum(amount) as ttamount FROM `tbl_cartmaster` INNER JOIN `tbl_cartchild` USING(`cart_mid`)  WHERE `cust_id`='$cust_id' AND `status`='Pending'";
-$rr=select($qq);
+// $qq="SELECT *,COUNT(`cart_cid`) AS cart_count,sum(amount) as ttamount FROM `tbl_cartmaster` INNER JOIN `tbl_cartchild` USING(`cart_mid`)  WHERE `cust_id`='$cust_id' AND `status`='Pending'";
+// $rr=select($qq);
 
-if(isset($_GET['remove_item'])){
-    extract($_GET);
-     $qu="UPDATE `tbl_cartmaster` SET `tot_amount`=`tot_amount`-'$amount' WHERE `cart_mid`='$cart_mid'";
-    update($qu);
-     $qd="DELETE FROM `tbl_cartchild` WHERE `item_id`='$remove_item' AND `cart_mid`='$cart_mid'";
-    delete($qd);
-    alert("Successfully Removed");
-    redirect("customer_cart.php");
 
-}
+
+
+
 ?>
 
  <!-- ======= Hero Section ======= -->
@@ -25,7 +22,7 @@ if(isset($_GET['remove_item'])){
         <div class="col-xl-6 col-lg-8">
           <!-- <h1>Powerful Digital Solutions With Gp<span>.</span></h1> -->
           <!-- <h2>My Orders</h2> -->
-          <h1 style="color: #FFC541; font-family: Freestyle Script Regular ">My Cart..</h1>
+          <h1 style="color: #FFC541; font-family: Freestyle Script Regular ">My Bookings..</h1>
         </div>
       </div>
 
@@ -43,7 +40,7 @@ if(isset($_GET['remove_item'])){
       <div class="col-md-8">
         <div class="card mb-4">
           <div class="card-header py-3">
-            <h5 class="mb-0">Cart - <?php echo $rr[0]['cart_count']; ?> items</h5>
+          <!--   <h5 class="mb-0">Cart - <?php echo $rr[0]['cart_count']; ?> items</h5> -->
           </div>
           
             <!-- Single item -->
@@ -58,7 +55,7 @@ if(isset($_GET['remove_item'])){
               <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                 <!-- Image -->
                 <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                  <img src="<?php echo $row['item_image']; ?>"
+                  <img src="<?php echo $row['photo']; ?>"
                     class="w-100" alt="Blue Jeans Jacket" />
                   <a href="#!">
                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
@@ -70,13 +67,12 @@ if(isset($_GET['remove_item'])){
               <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                 <!-- Data -->
                
-                <p><strong><?php echo $row['item_name']; ?></strong></p>
-                <p>Brand: <?php echo $row['brand_name']; ?></p>
-                <p>Category: <?php echo $row['cat_name']; ?></p>
-                <p>Strap Type: <?php echo $row['type_name']; ?></p>
-                <a type="button" href="?remove_item=<?php echo $row['item_id']; ?>&cart_mid=<?php echo $row['cart_mid']; ?>&amount=<?php echo $row['amount']; ?>" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                title="Remove item">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <p><strong><?php echo $row['product_name']; ?></strong></p>
+                <p><strong>Model: <?php echo $row['model']; ?></strong></p>
+                <p> <strong>Material: <?php echo $row['material']; ?></strong></p>
+                <p><strong>Details: <?php echo $row['details']; ?></strong></p>
+                
+               
                 </a>
                 <!-- <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
                 title="Move to the wish list">
@@ -87,7 +83,7 @@ if(isset($_GET['remove_item'])){
 
               <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
-                <form action="" method="post">
+               <!--  <form action="" method="post">
                 <div class="d-flex mb-4" style="max-width: 300px">
                 <input type="hidden" name="cart_mid<?php echo $i; ?>" value="<?php echo $row['cart_mid'];?>"></td>
                 <input type="hidden" name="item_id<?php echo $i; ?>" value="<?php echo $row['item_id'];?>"></td>
@@ -105,52 +101,17 @@ if(isset($_GET['remove_item'])){
                     onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                   
                 </div>
-                </form>
+                </form> -->
                 <!-- Quantity -->
 
                 <!-- Price -->
                 <p class="text-start text-md-center">
-                  <strong>₹<?php echo $row['rate']; ?></strong>
+                  <strong>₹<?php echo $row['sellingprice']; ?></strong>
+                  <a class="btn btn-success" href="customer_payment.php?amt=<?php echo $row['sellingprice'] ?>&bid=<?php echo $row['booking_id'] ?>">Make Payment</a>
                 </p>
                 <!-- Price -->
               </div>
-              <?php    
-              if(isset($_POST['minus'.$i])){
-				extract($_POST);
-                 $rate=$_POST['rate'.$i];
-                 $quantity=$_POST['quantity'.$i];
-                 $cart_mid=$_POST['cart_mid'.$i];
-                 $tot=$rate*$quantity;
-                    $qr="UPDATE `tbl_cartchild` SET `quantity`='".$_POST['quantity'.$i]."',amount='$tot' WHERE cart_cid='".$_POST['cart_cid'.$i]."'";
-                    update($qr); 
-                    $qs="SELECT *,SUM(`amount`) AS cmamount FROM `tbl_cartchild` WHERE `cart_mid`='$cart_mid'";
-                    $rs=select($qs);
-                     $qc="UPDATE `tbl_cartmaster` SET `tot_amount`='".$rs[0]['cmamount']."' WHERE `cart_mid`='$cart_mid'";
-                    update($qc);
-				//  $qr="update complaint set reply='".$_POST['reply'.$i]."' where complaint_id='".$_POST['complaint_id'.$i]."'";
-
-				redirect("customer_cart.php");
-				}
-
-                if(isset($_POST['add_item'.$i])){
-                    extract($_POST);
-                     $rate=$_POST['rate'.$i];
-                     $quantity=$_POST['quantity'.$i];
-                     $cart_mid=$_POST['cart_mid'.$i];
-                     $tot=$rate*$quantity;
-                        $qr="UPDATE `tbl_cartchild` SET `quantity`='".$_POST['quantity'.$i]."',amount='$tot' WHERE cart_cid='".$_POST['cart_cid'.$i]."'";
-                    //  $qr="update complaint set reply='".$_POST['reply'.$i]."' where complaint_id='".$_POST['complaint_id'.$i]."'";
-                    update($qr);
-                    $qs="SELECT *,SUM(`amount`) AS cmamount FROM `tbl_cartchild` WHERE `cart_mid`='$cart_mid'";
-                    $rs=select($qs);
-                     $qc="UPDATE `tbl_cartmaster` SET `tot_amount`='".$rs[0]['cmamount']."' WHERE `cart_mid`='$cart_mid'";
-                    update($qc);
-                    redirect("customer_cart.php");
-                    }
-				$i = $i+ 1; 
-                ?>
-                </div>
-                <hr class="my-4" />
+             
 
         
 </div>
@@ -169,62 +130,7 @@ if(isset($_GET['remove_item'])){
             <p class="mb-0">12.10.2020 - 14.10.2020</p>
           </div>
         </div> -->
-        <div class="card mb-4 mb-lg-0">
-          <div class="card-body">
-            <p><strong>We accept</strong></p>
-            <img class="me-2" width="45px"
-              src="assets/img/visa.svg"
-              alt="Visa" />
-            <img class="me-2" width="45px"
-                src="assets/img/amex.svg"
-              alt="American Express" />
-            <img class="me-2" width="45px"
-              src="assets/img/mastercard.svg"
-              alt="Mastercard" />
-            <img class="me-2" width="45px"
-              src="assets/img/paypals.png"
-              alt="PayPal acceptance mark" />
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-header py-3">
-            <h5 class="mb-0">Summary</h5>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <!-- <li
-                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                Products
-                <span>$53.98</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Shipping
-                <span>Gratis</span>
-              </li> -->
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                <div>
-                  <strong>Total amount</strong>
-                  <!-- <strong>
-                    <p class="mb-0">(including VAT)</p>
-                  </strong> -->
-                </div>
-                <span><strong>₹<?php echo $rr[0]['ttamount'];?></strong></span>
-              </li>
-            </ul>
-
-            <a type="button" href="customer_payment.php?cart_mid=<?php echo $res1[0]['cart_mid']; ?>&ttamount=<?php echo $rr[0]['ttamount'];?>" class="btn btn-primary btn-lg btn-block">
-              Go to checkout
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+       
 <style>
     .gradient-custom {
 /* fallback for old browsers */
@@ -240,48 +146,6 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
 
 
 
-
- <!-- ======= Team Section ======= -->
- <section id="team" class="team">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>watches!!</h2>
-          <p>Check our watches</p>
-        </div>
-
- <div class="row">
-<?php 
-
-$var="SELECT * FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) ";
-$var1=select($var);
-foreach ($var1 as $key) {
-	?> 
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px">
-            <div class="member" data-aos="fade-up" data-aos-delay="100">
-            <a href="customer_view_products.php?item_id=<?php echo $key['item_id']; ?>">
-            <div class="member-img">
-                <img src="<?php echo $key['item_image'] ?>" style="height: 220px"  class="img-fluid" alt="">
-                </div>
-              <div class="member-info">
-                <h4><?php echo $key['item_name']; ?></h4>
-                <span> ₹<?php echo $key['rate'] ?>/-</span>
-              </div>
-              </a>  
-            </div>
-          </div>
-
-                  <?php
-	}
-	?>
-
-   
-
-        </div>
-
-      </div>
-    </section><!-- End Team Section -->
 
 
     

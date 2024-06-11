@@ -6,16 +6,80 @@ if(isset($_POST['Add']))
   extract($_POST);
 
   
+  echo $qq="SELECT * FROM `tbl_purchasemaster` WHERE `seller_id`='$vndr' AND `status`='Pending'";
+  $r1=select($qq);
+  if(sizeof($r1)>0){
+
+     $purchase_mid=$r1[0]['purchase_mid'];
+     $qq1="SELECT * FROM `tbl_purchasechild` WHERE `purchase_mid`='$purchase_mid' AND `product_id`='$item'";
+    $r2=select($qq1);
+
+
+    $cost_price=$r2[0]['cost_price'];
+
+    $sellp=60/100*$cost_price;
+    $new=$sellp+$cost_price;
+
+
+
+    if(sizeof($r2)>0){
+      // alert("hhhhhhhhhhhhh");
+       $qq3="UPDATE `tbl_purchasechild` SET `quantity`=`quantity`+'$qty',`tot_price`=`tot_price`+'$tp' WHERE `product_id`='$item' and `purchase_mid`='$purchase_mid'";
+      update($qq3);
+        $qq5="UPDATE `tbl_purchasemaster` SET `tot_amount`=`tot_amount`+'$tp' WHERE `purchase_mid`='$purchase_mid'";
+      update($qq5);
+    }else{
+       $purchase_mid=$r1[0]['purchase_mid'];
+       $qq4="INSERT INTO `tbl_purchasechild`VALUES(NULL,'$purchase_mid','$item','$qty','$cp','$tp')";
+      insert($qq4);
+       $qq5="UPDATE `tbl_purchasemaster` SET `tot_amount`=`tot_amount`+'$tp' WHERE `purchase_mid`='$purchase_mid'";
+      update($qq5);
+
+      $q="update product set sellingprice='$new' where product_id='$item'";
+      update($q);
+      }
+
+    }
+    else{
+
+
+   
+
+      // alert("helloooo");
+
+      $qa1="INSERT INTO `tbl_purchasemaster` VALUES(NULL,'0','$vndr',curdate(),'$tp','Pending')";
+     $iidd=insert($qa1);
+     $qa2="INSERT INTO `tbl_purchasechild`VALUES(NULL,'$iidd','$item','$qty','$cp','$tp')";
+    $pid=insert($qa2);
+
+
+    $q="select * from tbl_purchasechild where purchase_cid='$pid'";
+    $cid=select($q);
+
+
+
+     $cost_price=$cid[0]['cost_price'];
+
+    $sellp=60/100*$cost_price;
+    $new=$sellp+$cost_price;
+
+     $q="update product set sellingprice='$new' where product_id='$item'";
+      update($q);
+
+    }
   
- echo $q1="insert into tbl_purchasemaster values(null,'0','$vndr',curdate(),'$tp')";
-  $id=insert($q1);
 
- echo $q9="insert into tbl_purchasechild values(null,'$id','$item','$qty','$cp','$tp') ";
-  insert($q9);
-  $qe="UPDATE `tbl_item` SET `stock`=`stock`+'$qty' WHERE `item_id`='$item'";
-  update($qe);
 
- return redirect("admin_manage_purchase.php");
+
+  // $q1="insert into tbl_purchasemaster values(null,'0','$vndr',curdate(),'$tp')";
+  // $id=insert($q1);
+
+  // $q9="insert into tbl_purchasechild values(null,'$id','$item','$qty','$cp','$tp') ";
+  // insert($q9);
+  // $qe="UPDATE `tbl_item` SET `stock`=`stock`+'$qty' WHERE `item_id`='$item'";
+  // update($qe);
+
+ return redirect("admin_purchase.php");
 }
 
 
@@ -49,16 +113,16 @@ ADD PRODUCT
 <table align="center" cellpadding=20  style="color: #FFC541">
 	
     
-    <th>VENDOR NAME</th>
+    <th>Seller NAME</th>
      	<td>
      		<select name="vndr"  class="form-control">
      			<option>Select</option>
      			<?php 
-     			echo$q10="select * from tbl_vendor";
+     			echo$q10="select * from seller";
      			$res10=select($q10);
      			foreach ($res10 as $rows) {
      				?>
-     				<option value="<?php echo $rows['vendor_id'] ?>"><?php echo $rows['vendor_name'] ?></option>
+     				<option value="<?php echo $rows['seller_id'] ?>"><?php echo $rows['seller_name'] ?></option>
      			<?php 
      		}
      			 ?>
@@ -81,7 +145,7 @@ ADD PRODUCT
      </tr>
 
      <tr>
-	<td><input type="submit" align="center" class="btn btn-success" value="Purchase" name="Add"></td>
+	<td><input type="submit" align="center" class="btn btn-success" value="Add to Purchase List" name="Add"></td>
     </tr>
      </table>
  </form></font></div></section>

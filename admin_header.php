@@ -1,13 +1,6 @@
 
-<?php include "connection.php";
-$utype=$_SESSION['user_type'];
-if($utype=="admin"){
-    $staff_id=0;
-}
-else{
-    $staff_id=$_SESSION['staff_id'];
-}
-?>
+<?php include "connection.php"?>
+
 
 <!-- <a href="admin_home.php">Home</a>
 <a href="admin_manage_staff.php">admin_manage_staff</a>
@@ -30,7 +23,7 @@ else{
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Gp Bootstrap Template - Index</title>
+  <title>boutique</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -67,8 +60,8 @@ else{
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="admin_home.php" style="color: #FFC541">ZEIT WATCHES</a> <br>
-      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">time will explain.</span></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="admin_home.php" style="color: #FFC541">BRD Since Now</a> <br>
+      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">Boutique</span></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -82,12 +75,6 @@ else{
           <li class="dropdown"><a href="#"><span>Manage</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
 
-            <?php 
-            if($utype=="admin"){ ?>
-                <li><a href="admin_manage_staff.php">Staff</a></li>
-            <?php }
-           
-            ?>
               
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
@@ -99,18 +86,26 @@ else{
                 </ul>
               </li> -->
 
-              <li><a href="admin_manage_vendor.php">Vendor</a></li>
-              <li><a href="admin_manage_courier.php">Courier</a></li>
+           <!--    <li><a href="admin_manage_vendor.php">Vendor</a></li>
+              <li><a href="admin_manage_courier.php">Courier</a></li> -->
               <li><a href="admin_manage_category.php">Category</a></li>
-              <li><a href="admin_manage_type.php">Type</a></li>
-              <li><a href="admin_manage_brand.php">Brand</a></li>
-              <li><a href="admin_manage_product.php">Product</a></li>
+            
+              <li><a href="admin_addseller.php">Seller</a></li>
+            
+
+              <li><a class="nav-link scrollto" href="admin_manage_purchase.php">Out of Stock</a></li>
+          <li><a class="nav-link scrollto" href="admin_purchase.php">Purchase</a></li>
              
             </ul>
           </li>
           
-          <li><a class="nav-link scrollto" href="admin_manage_purchase.php">Purchase</a></li>
-          <li><a class="nav-link scrollto" href="admin_view_sales.php">Sales</a></li>
+          <li><a class="nav-link scrollto" href="admin_manage_purchase_list.php">View Bookings</a></li>
+         
+          <li><a class="nav-link scrollto" href="shop_viewcustomerrequest.php">Customer request</a></li>
+ <li><a class="nav-link scrollto" href="admin_request.php">Request</a></li>
+
+          <li><a class="nav-link scrollto" href="shop_viewrating.php">View Ratings</a></li>
+             <li><a class="nav-link scrollto" href="shop_feedback.php">Feedback</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

@@ -1,12 +1,12 @@
 <?php include 'customer_header.php';
 extract($_GET);
-$var="SELECT * FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) ";
+$var="SELECT * FROM product INNER JOIN category USING (category_id) ";
 $var1=select($var);
 
-if(isset($_GET['brandfil'])){
+if(isset($_GET['catid'])){
 	extract($_GET);
 
-	 $var="SELECT * FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) WHERE  brand_id='$brandfil'";
+	 $var="SELECT * FROM product INNER JOIN category USING (category_id)  WHERE  category_id='$catid'";
     $var1=select($var);
 }
 
@@ -18,34 +18,43 @@ if(isset($_GET['brandfil'])){
 
       <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
         <div class="col-xl-6 col-lg-8">
-        <h1 style="color: #FFC541; font-family: Freestyle Script Regular ">Time Will Explain..</h1>
+        <h1 style="color: #FFC541; font-family: Freestyle Script Regular ">Brd Since Now </h1>
         </div>
       </div>
 
-      <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-        <div class="col-xl-2 col-md-4">
+
+
+                <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+
+       <?php 
+             $q1="SELECT * FROM category";
+            $ress=select($q1);
+            if(sizeof($ress)>0){
+              foreach ($ress as $row ) { ?>
+
+
+                
+        <div class="col-xl-2 col-md-6">
           <div class="icon-box">
             <i class="ri-store-line"></i>
-            <h3><a class="nav-link scrollto " href="customer_view_category_items.php?cat=men">MEN</a></h3>
+          <div class="swiper-slide"><a href="?catid=<?php echo $row['category_id']; ?>#team"><?php echo $row['category_name']; ?><?php echo $row['description']; ?></a></div>
           </div>
         </div>
+
+        
+            
+           
+          <?php } } ?>
+
+      
         <div class="col-xl-2 col-md-4">
-          <div class="icon-box">
-            <i class="ri-bar-chart-box-line"></i>
-            <h3><a class="nav-link scrollto " href="customer_view_category_items.php?cat=women">WOMEN</a></h3>
-          </div>
+          
         </div>
         <div class="col-xl-2 col-md-4">
-          <div class="icon-box">
-            <i class="ri-calendar-todo-line"></i>
-            <h3><a class="nav-link scrollto " href="customer_view_category_items.php?cat=kids">KIDS</a></h3>
-          </div>
+        
         </div>
         <div class="col-xl-2 col-md-4">
-          <div class="icon-box">
-            <i class="ri-paint-brush-line"></i>
-            <h3><a class="nav-link scrollto " href="customer_view_category_items.php?cat=unisex">UNISEX</a></h3>
-          </div>
+         
         </div>
         <!-- <div class="col-xl-2 col-md-4">
           <div class="icon-box">
@@ -67,16 +76,7 @@ if(isset($_GET['brandfil'])){
 
         <div class="clients-slider swiper">
         <div class="swiper-wrapper align-items-center">
-        <?php 
-        		 $q1="SELECT * FROM tbl_brand";
-        		$ress=select($q1);
-        		if(sizeof($ress)>0){
-        			foreach ($ress as $row ) { ?>
-
-        
-            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>#team"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt="<?php echo $row['brand_name']; ?>"></a></div>
-           
-          <?php } } ?>
+       
           </div>
           <div class="swiper-pagination"></div>
        
@@ -86,35 +86,36 @@ if(isset($_GET['brandfil'])){
     </section><!-- End Clients Section -->
     
  <!-- ======= Team Section ======= -->
- <section id="team" class="team">
+ <section id="team" class ="team" >
       <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
-          <h2>watches!!</h2>
-          <p>Check our watches</p>
+        <div class="section-title" style="margin-left: 45px">
+          <h2>Product!!</h2>
+          <p>Check our Product</p>
         </div>
 
- <div class="row">
+ <div class="row" >
 <?php 
 
 
 foreach ($var1 as $key) {
 	?> 
 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px">
-            <div class="member" data-aos="fade-up" data-aos-delay="100">
-            <a href="customer_view_products.php?item_id=<?php echo $key['item_id']; ?>">
+<div class="col-md-3 col-lg-3"  >
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px;margin-left: 45px">
+            <div class="member" data-aos="fade-up" data-aos-delay="100" style="width: 330px">
+            <a href="customer_view_products.php?item_id=<?php echo $key['product_id']; ?>">
             <div class="member-img">
-                <img src="<?php echo $key['item_image'] ?>" style="height: 220px"  class="img-fluid" alt="">
+                <img src="<?php echo $key['photo'] ?>" style="height: 220px"  class="img-fluid" alt="">
                 </div>
               <div class="member-info">
-                <h4><?php echo $key['item_name']; ?></h4>
-                <span> ₹<?php echo $key['rate'] ?>/-</span>
+                <h4><?php echo $key['product_name']; ?></h4>
+                <span> ₹<?php echo $key['sellingprice'] ?>/-</span>
               </div>
               </a>  
             </div>
           </div>
-
+</div>
                   <?php
 	}
 	?>

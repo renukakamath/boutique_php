@@ -8,12 +8,12 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="footer-info">
-              <h3>ZEIT WATCHES<span>.</span></h3>
+              <h3>BRD Since Now <span>.</span></h3>
               <p>
-                Kakkanad <br>Near Rajagiri Valley <br>
+                Kakkanad <br>Near  Valley <br>
                 <br><br>
                 
-                <strong>Email:</strong> info@example.com<br>
+                <strong>Email:</strong> Brd_since_now@gmail.com<br>
               </p>
               <div class="social-links mt-3">
                 <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>

@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Gp Bootstrap Template - Index</title>
+  <title>boutique</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -48,8 +48,8 @@
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="index.php" style="color: #FFC541">ZEIT WATCHES</a> <br>
-      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">time will explain.</span></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="index.php" style="color: #FFC541">BRD  Since Now </a> <br>
+      <span style="color: #FFC541; font-family: Freestyle Script Regular;font-size: 23px ">boutique.</span></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -77,7 +77,7 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> -->
-          <li><a class="nav-link scrollto" href="customer_registration.php">Customer Registration</a></li>
+          <li><a class="nav-link scrollto" href="customer_registration.php"> Registration</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

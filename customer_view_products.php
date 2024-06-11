@@ -1,38 +1,21 @@
 <?php include 'customer_header.php'; 
+
+$cust_id=$_SESSION['user_id'];
 extract($_GET);
-$var="SELECT *,`tbl_item`.`description` AS `description` FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) where item_id='$item_id'";
+$var="SELECT *,`product`.`details` AS `description` FROM product INNER JOIN category USING (category_id)  where product_id='$item_id'";
 $var1=select($var);
 
 if(isset($_GET['add_cart'])){
   extract($_GET);
-  $q1="SELECT * FROM `tbl_cartmaster` WHERE `cust_id`='$cust_id' AND `status`='Pending'";
-  $res1=select($q1);
-  if(sizeof($res1)>0){
-    $cart_mid=$res1[0]['cart_mid'];
-    $q2="SELECT * FROM `tbl_cartchild` WHERE `item_id`='$add_cart' AND `cart_mid`='$cart_mid'";
-    $res2=select($q2);
-    if(sizeof($res2)>0){
-      alert("Already Carted");
-      return redirect("customer_cart.php");
-      // $q3="UPDATE `tbl_cartchild` SET `quantity`=`quantity`+'1',`amount`=`amount`='' WHERE `item_id`=''";
-    }else{
-      $q4="INSERT INTO `tbl_cartchild` VALUES(NULL,'$cart_mid','$add_cart','1','$amount',CURDATE())";
-      insert($q4);
-      $q5="UPDATE `tbl_cartmaster` SET `tot_amount`=`tot_amount`+'$amount' WHERE `cart_mid`='$cart_mid'";
-      update($q5);
-      alert("Successfully Carted");
-      return redirect("customer_cart.php");
-    }
-  }else{
-    $q6="INSERT INTO `tbl_cartmaster` VALUES(NULL,'$cust_id','$amount','Pending')";
-    $ids=insert($q6);
-    $q4="INSERT INTO `tbl_cartchild` VALUES(NULL,'$ids','$add_cart','1','$amount',CURDATE())";
-    insert($q4);
-    alert("Successfully Carted");
+
+  $q="insert into bookings values(null,'$cust_id','$item_id',now(),'booked')";
+  insert($q);
+
+    alert("Successfully Booked");
     return redirect("customer_cart.php");
 
   }
-}
+
 ?>
 
  <!-- ======= Hero Section ======= -->
@@ -51,37 +34,43 @@ if(isset($_GET['add_cart'])){
       <div class="container" data-aos="fade-up">
 
         <div class="row">
-          <div class="image col-lg-6" style='background-image: url("<?php echo $var1[0]['item_image']; ?>");' data-aos="fade-right"></div>
+          <div class="image col-lg-6" style='background-image: url("<?php echo $var1[0]['photo']; ?>");background-size: cover;background-repeat: no-repeat;background-position: center;max-width: 400px ' data-aos="fade-right"></div>
           <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
             <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
               <i class="bx bx-receipt"></i>
-              <h4>Brand : <?php echo $var1[0]['item_name']; ?></h4>
+              <h4>Product Name : <?php echo $var1[0]['product_name']; ?></h4>
               <!-- <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p> -->
             </div>
             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
               <i class="bx bx-cube-alt"></i>
-              <h4>Category : <?php echo $var1[0]['cat_name']; ?></h4>
+              <h4>Category : <?php echo $var1[0]['category_name']; ?></h4>
+              <!-- <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p> -->
+            </div>
+             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-cube-alt"></i>
+              <h4>Model : <?php echo $var1[0]['model']; ?></h4>
+              <!-- <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p> -->
+            </div>
+             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-cube-alt"></i>
+              <h4>Material : <?php echo $var1[0]['material']; ?></h4>
               <!-- <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p> -->
             </div>
             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
               <i class="bx bx-images"></i>
-              <h4>Description : <?php echo $var1[0]['description']; ?></h4>
+              <h4>Description : <?php echo $var1[0]['details']; ?></h4>
               <!-- <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p> -->
             </div>
+            
             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
               <i class="bx bx-shield"></i>
-              <h4>Stock : <?php echo $var1[0]['stock']; ?></h4>
-              <!-- <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p> -->
-            </div>
-            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-              <i class="bx bx-shield"></i>
-              <h4>Price : <?php echo $var1[0]['rate']; ?></h4>
+              <h4>Price : <?php echo $var1[0]['sellingprice']; ?></h4>
               <!-- <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p> -->
             </div>
             <br>
             <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-              
-             <p><a href="?add_cart=<?php echo $var1[0]['item_id']; ?>&amount=<?php echo $var1[0]['rate']; ?>&item_id=<?php echo $item_id; ?>" class="btn btn-warning">Add to Cart</a>
+            
+             <p><a href="?add_cart=<?php echo $var1[0]['product_id']; ?>&amount=<?php echo $var1[0]['sellingprice']; ?>&item_id=<?php echo $item_id; ?>" class="btn btn-warning">BUY NOW</a> 
              <!-- <a href="" class="btn btn-success">Buy Now</a></p> -->
             </div>
           </div>
@@ -93,41 +82,40 @@ if(isset($_GET['add_cart'])){
 
 
     
-
- <!-- ======= Team Section ======= -->
- <section id="team" class="team">
+<!-- ======= Team Section ======= -->
+ <section id="team" class ="team" >
       <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
-          <h2>watches!!</h2>
-          <p>Check our watches</p>
+        <div class="section-title" style="margin-left: 45px">
+          <h2>product!!</h2>
+          <p>Check our product</p>
         </div>
 
- <div class="row">
+ <div class="row" >
 <?php 
 
-$var="SELECT * FROM tbl_item INNER JOIN tbl_category USING (cat_id) INNER JOIN tbl_brand USING (brand_id) ";
-$var1=select($var);
-foreach ($var1 as $key) {
-	?> 
 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px">
-            <div class="member" data-aos="fade-up" data-aos-delay="100">
-            <a href="customer_view_products.php?item_id=<?php echo $key['item_id']; ?>">
+foreach ($var1 as $key) {
+  ?> 
+
+<div class="col-md-3 col-lg-3"  >
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" style="max-height: 400px; width: 230px;margin-left: 45px">
+            <div class="member" data-aos="fade-up" data-aos-delay="100" style="width: 330px">
+            <a href="customer_view_products.php?item_id=<?php echo $key['product_id']; ?>">
             <div class="member-img">
-                <img src="<?php echo $key['item_image'] ?>" style="height: 220px"  class="img-fluid" alt="">
+                <img src="<?php echo $key['photo'] ?>" style="height: 220px"  class="img-fluid" alt="">
                 </div>
               <div class="member-info">
-                <h4><?php echo $key['item_name']; ?></h4>
-                <span> ₹<?php echo $key['rate'] ?>/-</span>
+                <h4><?php echo $key['product_name']; ?></h4>
+                <span> ₹<?php echo $key['sellingprice'] ?>/-</span>
               </div>
               </a>  
             </div>
           </div>
-
+</div>
                   <?php
-	}
-	?>
+  }
+  ?>
 
    
 
@@ -135,6 +123,5 @@ foreach ($var1 as $key) {
 
       </div>
     </section><!-- End Team Section -->
-
 
 <?php include 'footer.php'; ?>

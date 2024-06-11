@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$con=mysqli_connect('localhost','root','','watch_store','3306');
+$con=mysqli_connect('localhost','root','','boutique','3306');
  
  function insert($qry){
  	$res=mysqli_query($GLOBALS['con'],$qry);

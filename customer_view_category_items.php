@@ -35,7 +35,7 @@ if(isset($_GET['brandfil'])){
         			foreach ($ress as $row ) { ?>
 
         
-            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>&cat=<?php echo $cat; ?>"><img src="<?php echo $row['image']; ?>" class="img-fluid" alt="<?php echo $row['brand_name']; ?>"></a></div>
+            <div class="swiper-slide"><a href="?brandfil=<?php echo $row['brand_id']; ?>&cat=<?php echo $cat; ?>"><img src="<?php echo $row['brand_img']; ?>" class="img-fluid" alt="<?php echo $row['brand_name']; ?>"></a></div>
            
           <?php } } ?>
           </div>
